@@ -21,7 +21,7 @@ describe HomeController do
 
     context "query of 2 para and 1 line" do
       it "gives 9 lines" do
-        get :wow, query: { paragraphs: 2, lines: 1 }
+        get :wow, query: { paragraphs: 2, lines: 1 }.to_json
 
         response.body.scan(/[!]/).count.should == 9
       end

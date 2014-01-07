@@ -5,11 +5,9 @@ class HomeController < ApplicationController
 
   def wow
     query = {}
+
     if params[:query]
-      query = params[:query].each.inject({}) do |sum, pair| 
-        sum[pair.first.to_sym] = pair.last.to_i
-        sum
-      end
+      query = ActiveSupport::JSON.decode(params[:query]).symbolize_keys
     end
 
     text = DogeIpsum::Wow.generate(query)

@@ -1,11 +1,20 @@
 <h3>oh wow such dogeipsum</h3>
-
-<div ng-controller="DogeIpsumCtrl">
-  <label for="paragraphs">Paragraphs: </label>
-  <input type="number" ng-model="query.paragraphs"  />
-  <br>
-  <label for="paragraphs">Lines: </label>
-  <input type="number" ng-model="query.lines" />
-  <br>
-  <button type="button" ng-click="generateText()">Generate</button>
+<a href="https://github.com/linqiu/dogeipsum"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_green_007200.png" alt="Fork me on GitHub"></a>
+<div ng-controller='DogeIpsumCtrl'>
+  <form name="form" class="css-form" novalidate >
+    <label for='paragraphs'>Paragraphs: </label>
+    <input type='number' ng-model='query.paragraphs' name='paragraphs' min='1' integer />
+    <span ng-show='form.paragraphs.$error.integer'>This is not valid integer!</span>
+    <span ng-show='form.paragraphs.$error.min'>The value must be greater than 1</span>
+    <br>
+    <label for='lines'>Lines: </label>
+    <input type='number' ng-model='query.lines' min='0' name='lines' integer />
+    <span ng-show='form.lines.$error.integer'>This is not valid integer!</span>
+    <span ng-show='form.lines.$error.min'>The value must be greater than 0</span>
+    <br>
+    <button type='button' ng-click='generateText()'>Generate</button>
+  </form>
+  <div class='lorem'>
+    <textarea ng-model='lorem'></textarea>
+  </div>
 </div>

@@ -7,8 +7,22 @@
 app = angular.module("DogeipsumMe", ["ngResource"])
 
 app.factory "DogeIpsum", ["$resource", ($resource) ->
-  $resource("/wowdoge/:query", { query: {paragraphs: 4, lines: 0} })
+  $resource("/wowdoge/", {})
 ]
+
+INTEGER_REGEXP = /^\-?\d+$/
+app.directive "integer", ->
+  require: "ngModel"
+  link: (scope, elm, attrs, ctrl) ->
+    ctrl.$parsers.unshift (viewValue) ->
+      if INTEGER_REGEXP.test(viewValue)
+        # it is valid
+        ctrl.$setValidity "integer", true
+        viewValue
+      else
+        # it is invalid, return undefined (no model update)
+        ctrl.$setValidity "integer", false
+        `undefined`
 
 @DogeIpsumCtrl = ["$scope", "DogeIpsum", ($scope, DogeIpsum) ->
   $scope.query = {
@@ -17,9 +31,13 @@ app.factory "DogeIpsum", ["$resource", ($resource) ->
   }
 
   $scope.generateText = ->
-    console.log("I touched this")
-    DogeIpsum.query({ query: $scope.query }, (result) ->
-      console.log(result)
+    clean_params = cleanUpParams($scope.query)
+    DogeIpsum.get({ query : clean_params }, (result) ->
+      $scope.lorem = result.lorem
     )
-    console.log("then finished this")
+
+  cleanUpParams = (query)->
+    para = if isNaN(parseInt(query.paragraphs)) then 1 else query.paragraphs
+    lines = if isNaN(parseInt(query.lines)) then 0 else query.lines
+    { paragraphs: para, lines: lines}
 ]

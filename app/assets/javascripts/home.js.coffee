@@ -26,7 +26,7 @@ app.directive "integer", ->
 
 @DogeIpsumCtrl = ["$scope", "DogeIpsum", ($scope, DogeIpsum) ->
   $scope.query = {
-    paragraphs: 4,
+    paragraphs: 1,
     lines: 0
   }
 
